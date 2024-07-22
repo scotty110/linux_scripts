@@ -1,0 +1,36 @@
+#!/bin/bash
+# This script will Wipe a drive, up to DOD standards
+
+# Notes:
+# Disk Wipe:  https://wiki.archlinux.org/index.php/Securely_wipe_disk#hdparm
+# SSD Memory Cell Clear:  https://wiki.archlinux.org/index.php/Solid_state_drive/Memory_cell_clearing
+# Crypt Drive Prep:  https://wiki.archlinux.org/index.php/Dm-crypt/Drive_preparation
+# ATA Wipe:  https://tinyapps.org/docs/wipe_drives_hdparm.html
+
+# If any error exit
+set -eu
+
+
+lsblk
+echo "What do you want to prep?"
+read drive
+drive="/dev/${drive}"
+
+# Overwrite with zeros then overwrite 2x with random data
+# Some Setup:
+physical_size=$(cat /sys/block/$(echo ${drive:(-3)})/queue/physical_block_size)
+logical_size=$(cat /sys/block/$(echo ${drive:(-3)})/queue/logical_block_size)
+drive_sectors=$(cat /sys/block/$(echo ${drive:(-3)})/size)
+physical_disk_sectors=$(($drive_sectors*$logical_size/$physical_size))
+
+#First Clear drive with 0's
+dd if=/dev/zero of=$drive bs=$physical_size count=$physical_disk_sectors seek=0 status=progress
+
+#Now write psuedorandom bites to drive
+cryptsetup open --type plain -d /dev/urandom $drive to_be_wiped
+dd if=/dev/zero of=$drive bs=$physical_size count=$physical_disk_sectors seek=0 status=progress
+cryptsetup close to_be_wiped
+
+echo "Drive $drive has been prepped"
+
+exit
