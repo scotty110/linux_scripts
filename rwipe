@@ -8,6 +8,7 @@ set -eu
 lsblk 
 echo "which drive"
 read drive
+drive="/dev/$drive"
 
 # Write Random Data
 export LC_CTYPE=C

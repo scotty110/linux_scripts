@@ -10,7 +10,6 @@ read drive
 drive="/dev/$drive"
 
 # Start inc at 1?
-#d_num=$(( $(ls /dev/mapper/cryptdrive_* | wc -l) +1 ))
 
 d_num=$(ls /dev/mapper/cryptdrive_* | wc -l)
 crypto_drive="cryptdrive_$d_num"
