@@ -1,11 +1,5 @@
 #!/bin/bash
-# This script will Wipe a drive, up to DOD standards
-
-# Notes:
-# Disk Wipe:  https://wiki.archlinux.org/index.php/Securely_wipe_disk#hdparm
-# SSD Memory Cell Clear:  https://wiki.archlinux.org/index.php/Solid_state_drive/Memory_cell_clearing
-# Crypt Drive Prep:  https://wiki.archlinux.org/index.php/Dm-crypt/Drive_preparation
-# ATA Wipe:  https://tinyapps.org/docs/wipe_drives_hdparm.html
+# This script will Wipe a HDD with random data, up to DOD standards
 
 set -eu
 
@@ -14,19 +8,14 @@ echo "What drive do you want to prep?"
 read drive
 drive="/dev/${drive}"
 
-# Get block sizes
-physical_size=$(cat /sys/block/$(echo ${drive:(-3)})/queue/physical_block_size)
-logical_size=$(cat /sys/block/$(echo ${drive:(-3)})/queue/logical_block_size)
-drive_sectors=$(cat /sys/block/$(echo ${drive:(-3)})/size)
-physical_disk_sectors=$(($drive_sectors*$logical_size/$physical_size))
-
-# Wipe drive with zeros
-dd if=/dev/zero of=$drive bs=$physical_size count=$physical_disk_sectors status=progress
-
 # Wipe drive with random data
 cryptsetup open --type plain -d /dev/urandom $drive to_be_wiped
-dd if=/dev/zero of=/dev/mapper/to_be_wiped bs=$physical_size count=$physical_disk_sectors status=progress
-cryptsetup close to_be_wiped
+
+# Ensure the entire disk is wiped by writing random data 
+dd if=/dev/zero of=/dev/mapper/to_be_wiped bs=4M status=progress
+
+# Close the cryptsetup device
+cryptsetup close to_be_wiped 
 
 echo "Drive $drive has been prepped"
 exit
