@@ -1,9 +1,0 @@
-#!/bin/bash
-# Clear clipboard
-
-set -eu
-export LC_CTYPE=C
-printf '' | xclip -selection clipboard
-xclip -i /dev/null
-exit
-

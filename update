@@ -1,9 +1,8 @@
 #!/bin/bash
-# Update all ubuntu files
+# Update all 
 
-
-sudo apt update \
-    && sudo apt upgrade -y \
-    && sudo apt autoremove -y \
-    && sudo rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+sudo dnf check-update \
+    && sudo dnf upgrade -y \
+    && sudo dnf autoremove -y \
+    && sudo rm -rf /var/cache/dnf /var/log/dnf.librepo.log
 
