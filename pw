@@ -4,5 +4,6 @@
 
 set -eu
 export LC_CTYPE=C
-(tr -c -d '[:alnum:]' < /dev/urandom | head -c34) | xclip -sel c 
+(tr -c -d '[:alnum:]' < /dev/urandom | head -c34) 
+echo ""
 exit
