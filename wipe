@@ -9,13 +9,13 @@ read drive
 drive="/dev/${drive}"
 
 # Wipe drive with random data
-cryptsetup open --type plain -d /dev/urandom $drive to_be_wiped
+sudo cryptsetup open --type plain -d /dev/urandom $drive to_be_wiped
 
 # Ensure the entire disk is wiped by writing random data 
-dd if=/dev/zero of=/dev/mapper/to_be_wiped bs=4M status=progress
+sudo dd if=/dev/zero of=/dev/mapper/to_be_wiped bs=4M status=progress
 
 # Close the cryptsetup device
-cryptsetup close to_be_wiped 
+sudo cryptsetup close to_be_wiped 
 
 echo "Drive $drive has been prepped"
 exit

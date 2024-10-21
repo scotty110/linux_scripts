@@ -1,9 +1,0 @@
-#!/bin/bash
-# make an internet password 
-# Provides approx 256 bits of security (https://en.wikipedia.org/wiki/Password_strength)
-
-set -eu
-export LC_CTYPE=C
-(tr -c -d '[:alnum:]' < /dev/urandom | head -c34) 
-echo ""
-exit

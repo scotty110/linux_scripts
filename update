@@ -1,8 +1,7 @@
 #!/bin/bash
 # Update all 
 
-sudo apt update \
-    && sudo apt upgrade -y \
-    && sudo apt autoremove -y \
-    && sudo apt clean \
-    && sudo rm -rf /var/cache/apt /var/log/apt
+sudo dnf clean all \
+    && sudo dnf upgrade -y \
+    && sudo dnf autoremove -y \
+    && sudo dnf cache-manage clean
