@@ -26,6 +26,6 @@ sudo cryptsetup \
 # Make File System 
 sudo cryptsetup open $drive cryptroot
 sudo mkfs.xfs /dev/mapper/cryptroot
-sudo cryptsetup close cryptroott
+sudo cryptsetup close cryptroot
 
 exit
