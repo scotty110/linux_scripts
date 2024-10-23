@@ -1,0 +1,4 @@
+#!/bin/bash
+# Kill GDM (Turn Desktop into a Server)
+
+sudo systemctl stop gdm3
