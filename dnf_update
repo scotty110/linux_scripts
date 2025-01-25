@@ -1,7 +1,0 @@
-#!/bin/bash
-# Update all 
-
-sudo dnf clean all \
-    && sudo dnf upgrade -y \
-    && sudo dnf autoremove -y \
-    && sudo dnf cache-manage clean
